@@ -1,4 +1,8 @@
-﻿using Microsoft.Deployment.WindowsInstaller;
+﻿using System;
+using System.IO;
+using System.Linq;
+using Microsoft.Deployment.WindowsInstaller;
+using Microsoft.Win32;
 
 namespace CustomActions
 {
@@ -52,5 +56,32 @@ namespace CustomActions
             session.Log("End UninstallLegacyVersion");
             return ActionResult.Success;
         }
+
+
+        [CustomAction]
+        public static ActionResult IsMinimumDotNetVersionInstalled(Session session)
+        {
+            session.Log("Begin IsMinimumDotNetVersionInstalled");
+
+
+            using (var root = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+            {
+                using (var key = root.OpenSubKey(@"SOFTWARE\WOW6432Node\dotnet\Setup\InstalledVersions\x64\sharedfx\Microsoft.WindowsDesktop.App", false))
+                {
+                    foreach (var subkey in key.GetSubKeyNames())
+                    {
+                        if (subkey.StartsWith("6.0"))
+                            session["MINIMUM_DOTNET_VERSION_INSTALLED"] = "1";
+                        else
+                            session["MINIMUM_DOTNET_VERSION_INSTALLED"] = "0";
+                    }
+                };
+            };
+
+            session.Log("End IsMinimumDotNetVersionInstalled");
+
+            return ActionResult.Success;
+        }
+
     }
 }
