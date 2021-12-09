@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Microsoft.Deployment.WindowsInstaller;
-using Microsoft.Win32;
+﻿using Microsoft.Deployment.WindowsInstaller;
 
 namespace CustomActions
 {
@@ -34,14 +30,10 @@ namespace CustomActions
             session.Log("Begin IsLegacyVersionInstalled");
             var uninstaller = new UninstallNsisVersions();
             if (uninstaller.IsLegacymRemoteNgInstalled())
-            {
                 session["LEGACYVERSIONINSTALLED"] = "1";
-            }
             else
-            {
                 session["LEGACYVERSIONINSTALLED"] = "0";
-            }
-
+            
             session.Log("End IsLegacyVersionInstalled");
             return ActionResult.Success;
         }
@@ -56,32 +48,19 @@ namespace CustomActions
             session.Log("End UninstallLegacyVersion");
             return ActionResult.Success;
         }
-
-
+        
         [CustomAction]
         public static ActionResult IsMinimumDotNetVersionInstalled(Session session)
         {
             session.Log("Begin IsMinimumDotNetVersionInstalled");
-
-
-            using (var root = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
-            {
-                using (var key = root.OpenSubKey(@"SOFTWARE\WOW6432Node\dotnet\Setup\InstalledVersions\x64\sharedfx\Microsoft.WindowsDesktop.App", false))
-                {
-                    foreach (var subkey in key.GetSubKeyNames())
-                    {
-                        if (subkey.StartsWith("6.0"))
-                            session["MINIMUM_DOTNET_VERSION_INSTALLED"] = "1";
-                        else
-                            session["MINIMUM_DOTNET_VERSION_INSTALLED"] = "0";
-                    }
-                };
-            };
-
+            var check = new DotnetInstalledChecker();
+            if (check.IsDotnet6Installed())
+                session["MINIMUM_DOTNET_VERSION_INSTALLED"] = "1";
+            else
+                session["MINIMUM_DOTNET_VERSION_INSTALLED"] = "0";
+            
             session.Log("End IsMinimumDotNetVersionInstalled");
-
             return ActionResult.Success;
         }
-
     }
 }
