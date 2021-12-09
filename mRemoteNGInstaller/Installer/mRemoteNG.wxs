@@ -23,25 +23,17 @@
     <Property Id='RDP80_KB' Value='$(var.Rdp80Kb)' />
     <Property Id='RDP81_KB' Value='$(var.Rdp81Kb)' />
     <Property Id='MINIMUM_RDP_VERSION_INSTALLED' Value='0' Secure='yes' />
-    <Property Id='REQUIREDDOTNETFRAMEWORKVERSION' Value='$(var.RequiredDotNetFrameworkVersion)' />
+    <Property Id='MINIMUM_DOTNET_VERSION_REQUIRED' Value='6.0' Secure='yes' />
+    <Property Id='MINIMUM_DOTNET_VERSION_INSTALLED' Value='0' Secure='yes' />
     <Property Id='LEGACYVERSIONINSTALLED' Value='0' />
-    <PropertyRef Id="NETFRAMEWORK40FULL" />
-    <PropertyRef Id="WIX_IS_NETFRAMEWORK_40_OR_LATER_INSTALLED" />
     <Icon Id="AppIcon.ico" SourceFile="Resources\AppIcon.ico" />
     <CustomActionRef Id='SaveCmdlineINSTALLDIR' />
 
-
-    <InstallUISequence>
-      <LaunchConditions After="SetWIX_IS_NETFRAMEWORK_40_OR_LATER_INSTALLED" />
-      <Custom Action="CheckIfLegacyVersionInstalled" After="LaunchConditions" />
-      <Custom Action="UninstallLegacyVersion" After="CheckIfLegacyVersionInstalled">(NOT Installed) AND (LEGACYVERSIONINSTALLED = 1)</Custom>
-    </InstallUISequence>
-
     <InstallExecuteSequence>
       <Custom Action="CheckIfRdpDtlsUpdateInstalled" After="AppSearch">(NOT Installed) AND (VersionNT = 601 OR VersionNT64 = 601)</Custom>
-      <Custom Action="CheckIfMinimumRdpInstalled" After="CheckIfRdpDtlsUpdateInstalled">(NOT Installed) AND (VersionNT = 601 OR VersionNT64 = 601)</Custom>
-      <LaunchConditions After="SetWIX_IS_NETFRAMEWORK_40_OR_LATER_INSTALLED" />
-      <Custom Action="CheckIfLegacyVersionInstalled" After="LaunchConditions" />
+	  <Custom Action="CheckIfMinimumRdpInstalled" After="CheckIfRdpDtlsUpdateInstalled">(NOT Installed) AND (VersionNT = 601 OR VersionNT64 = 601)</Custom>
+	  <Custom Action="CheckIfMinimumDotNetInstalled" After="CheckIfMinimumRdpInstalled">(NOT Installed) AND (VersionNT = 601 OR VersionNT64 = 601) AND (MINIMUM_DOTNET_VERSION_INSTALLED = 1)</Custom>
+      <Custom Action="CheckIfLegacyVersionInstalled" After="CheckIfMinimumDotNetInstalled" />
       <Custom Action="UninstallLegacyVersion" After="CheckIfLegacyVersionInstalled">(NOT Installed) AND (LEGACYVERSIONINSTALLED = 1)</Custom>
     </InstallExecuteSequence>
     
@@ -58,9 +50,9 @@
     <Condition Message="!(loc.Install_Win7RequiresSP1)">
       <![CDATA[Installed OR (IGNOREPREREQUISITES = 1) OR (VersionNT >= 602 OR VersionNT64 >= 602) OR ((VersionNT = 601 OR VersionNT64 = 601) AND ServicePackLevel >= 1)]]>
     </Condition>
-    <!-- .Net Framework Version Condition -->
-    <Condition Message="!(loc.Install_NeedDotNetFrameworkVersion)">
-      <![CDATA[Installed OR (IGNOREPREREQUISITES = 1) OR WIX_IS_NETFRAMEWORK_40_OR_LATER_INSTALLED = 1]]>
+    <!-- .NET Version Condition -->
+    <Condition Message="!(loc.Install_NeedDotNetVersion)">
+      <![CDATA[Installed OR (IGNOREPREREQUISITES = 1) OR MINIMUM_DOTNET_VERSION_INSTALLED = 1]]>
     </Condition>
     <!-- If Win7, require RDP DTLS update (KB2574819) -->
     <Condition Message="!(loc.Install_RDPDtlsRequirement)">

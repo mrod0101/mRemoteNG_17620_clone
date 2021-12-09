@@ -26,7 +26,7 @@
     <DefineConstants>HarvestPath=..\mRemoteNG\bin\Release Portable;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CustomActions\CheckForInstalledWindowsUpdates.wxs" />
+    <Compile Include="CustomActions\CheckPrerequisites.wxs" />
     <Compile Include="CustomActions\SaveInstallLocation.wxs" />
     <Compile Include="CustomActions\UninstallLegacyVersions.wxs" />
     <Compile Include="CustomDialogs\My_CustomizeDlg.wxs" />

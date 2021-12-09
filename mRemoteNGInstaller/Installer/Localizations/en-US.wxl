@@ -4,7 +4,7 @@
   <!-- Install Conditions -->
   <String Id="Upgrade_NewerVersionInstalled" Overridable="yes">A newer version of [ProductName] is already installed.</String>
   <String Id="Install_NeedToBeAdminToInstall">You need to be an administrator to install this product.</String>
-  <String Id="Install_NeedDotNetFrameworkVersion">mRemoteNG requires Microsoft .NET Framework [REQUIREDDOTNETFRAMEWORKVERSION] or higher.</String>
+  <String Id="Install_NeedDotNetVersion">mRemoteNG requires Microsoft .NET [MINIMUM_DOTNET_VERSION_REQUIRED] or higher.</String>
   <String Id="Install_OSVersionRequirement">mRemoteNG requires Windows 7 SP1 or higher to run. Please update your operating system and try again.</String>
   <String Id="Install_RDP80Requirement">mRemoteNG requires RDP 8.0 or higher to run. Windows 7 users will need to install either KB2592687 (RDP 8.0) or KB2830477 (RDP 8.1)</String>
   <String Id="Install_RDPDtlsRequirement">mRemoteNG requires KB2574819 in order to create RDP connections. Windows 7 users will need to install this KB.</String>

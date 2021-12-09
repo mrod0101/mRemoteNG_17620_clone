@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
   <?define ProductName = "mRemoteNG" ?>
-  <?define Company = "Next Generation Software" ?>
+  <?define Company = "www.mremoteng.org" ?>
   <?define UpgradeCode = "dd678a54-ca75-4791-8dfe-d818095684f8" ?>
   <?define ProductCode = "*" ?>
   <?define ProductVersion = "!(bind.FileVersion.MainExeFile)" ?>
@@ -12,10 +12,6 @@
   <?define ProductLanguage = 1033 ?>
   <?define ExeProcessName = "$(var.ProductName).exe" ?>
   
-  <?define RequiredDotNetFrameworkMajorVersion = "4" ?>
-  <?define RequiredDotNetFrameworkMinorVersion = "0" ?>
-  <?define RequiredDotNetFrameworkServicePackLevel = "" ?>
-  <?define RequiredDotNetFrameworkVersion = "$(var.RequiredDotNetFrameworkMajorVersion).$(var.RequiredDotNetFrameworkMinorVersion)" ?>
   <?define Rdp80Kb = "KB2592687" ?>
   <?define Rdp81Kb = "KB2830477" ?>
   <?define MinimumRdpKb = $(var.Rdp80Kb) ?>
