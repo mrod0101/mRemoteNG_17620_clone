@@ -74,7 +74,7 @@
       <Name>WixNetFxExtension</Name>
     </WixExtension>
   </ItemGroup>
-  <Import Project="$(WixTargetsPath)" />
+  <Import Project="$(MSBuildExtensionsPath32)" />
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
 	Other similar extension points exist, see Wix.targets.
